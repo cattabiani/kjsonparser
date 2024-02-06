@@ -1,6 +1,31 @@
-# C++ Template Project
+# Simple Json Parser
 
-This is a simple C++ template project that you can use as a starting point for your C++ projects. It provides a basic project structure and CMake configuration to help you get started quickly.
+Parser of simple json files. Assumptions:
+
+- all keys are strings
+- base types: int, string, double, bool, umap, vector
+
+Example:
+
+```
+{
+  "ints": [1, 2, 3, 4, 5],
+  "strings": ["apple", "banana", "orange", "grape", "kiwi"],
+  "nested_dict": {
+    "key1": {
+      "int_value": 10,
+      "bool_value": true,
+      "double_value": 3.14,
+      "string_value": "hello"
+    },
+    "key2": {
+      "int_value": 20,
+      "bool_value": false,
+      "double_value": "not_double"
+    }
+  }
+}
+```
 
 ## Project Structure
 
