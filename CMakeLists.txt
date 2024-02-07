@@ -28,27 +28,8 @@ target_link_libraries(kjsonparser_test PRIVATE kjsonparser ${GTEST_BOTH_LIBRARIE
 # Register tests
 gtest_discover_tests(kjsonparser_test)
 
-# cmake -S . -B build -G Ninja
 
+install(TARGETS kjsonparser
+        ARCHIVE DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/../lib)
 
-
-
-
-
-
-
-
-
-
-
-
-
-# cmake_minimum_required(VERSION 3.10)
-# project(kjsonparser)
-# set(CMAKE_CXX_STANDARD 17)
-
-# set(SOURCE_DIR src)
-# file(GLOB SOURCES ${SOURCE_DIR}/*.cpp)
-
-# add_executable(kjsonparser ${SOURCES})
-# set(CMAKE_GENERATOR "Ninja")
+# cmake -S . -B build -G Ninja && cmake --build build && cmake --install build
