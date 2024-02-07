@@ -1,11 +1,12 @@
+#include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
-#include <gtest/gtest.h>
 
 #include "../src/kjsonparser.hpp"
 #include "../src/utils.hpp"
 
-const string s0 = " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";
+const string s0 =
+    " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";
 
 const string s1 = R"(
    
@@ -51,24 +52,26 @@ const string s2 = R"(
 }
 )";
 
-
 TEST(JsonParserTest, BasicParsing) {
     std::ostringstream oss;
-    
+
     auto ans = K::KJsonParser::parse(s0);
     oss << ans;
-    string expected = "{\"c\": [\"a\", {\"c\": [6, 7.1], \"oo\": 12.3}], \"bb\": 3}";
+    string expected =
+        "{\"c\": [\"a\", {\"c\": [6, 7.1], \"oo\": 12.3}], \"bb\": 3}";
     ASSERT_EQ(oss.str(), expected);
-
-    
 
     oss.str("");
     ans = K::KJsonParser::parse(s1);
     oss << ans;
-    expected = "{\"nested_dict\": {\"key2\": {\"string_value\": \"world\", \"double_value\": 2.718, \"bool_value\": 0, \"int_value\": 20}, \"key1\": {\"string_value\": \"hello\", \"double_value\": 3.14, \"bool_value\": 1, \"int_value\": 10}}, \"strings\": [\"apple\", \"banana\", \"orange\", \"grape\", \"kiwi\"], \"ints\": [1, 2, 3, 4, 5]}";
-    ASSERT_EQ(oss.str(), expected);    
+    expected = "{\"nested_dict\": {\"key2\": {\"string_value\": \"world\", "
+               "\"double_value\": 2.718, \"bool_value\": 0, \"int_value\": "
+               "20}, \"key1\": {\"string_value\": \"hello\", \"double_value\": "
+               "3.14, \"bool_value\": 1, \"int_value\": 10}}, \"strings\": "
+               "[\"apple\", \"banana\", \"orange\", \"grape\", \"kiwi\"], "
+               "\"ints\": [1, 2, 3, 4, 5]}";
+    ASSERT_EQ(oss.str(), expected);
 }
-
 
 TEST(JsonParserTest, CompareParsings) {
 

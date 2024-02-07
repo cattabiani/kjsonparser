@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Run clang-format on staged .cpp and .hpp files in src and test folders
+files=$(git diff --cached --name-only --diff-filter=ACM | grep -E "^(src|test)/.*\.(cpp|h|hpp|cxx)$")
+[ -z "$files" ] && exit 0
+
+# Run clang-format on staged files
+for file in $files; do
+    clang-format -i "$file"
+    git add "$file"
+done

@@ -1,13 +1,10 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-
-#include "utils.hpp"
 #include "kjsonparser.hpp"
+#include "utils.hpp"
+#include <iostream>
+#include <unordered_map>
+#include <vector>
 
 using namespace std;
-
-
 
 int main() {
 
@@ -33,9 +30,10 @@ int main() {
 }
 )";
 
-    string s1 = " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";
+    string s1 =
+        " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";
 
     auto ans = K::KJsonParser::parse(s);
-    
+
     return 0;
 }

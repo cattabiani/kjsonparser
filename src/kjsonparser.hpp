@@ -1,41 +1,48 @@
 #pragma once
 
-#include <string>
-#include <variant>
-#include <unordered_map>
-#include <vector>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <tuple>
+#include <unordered_map>
+#include <variant>
+#include <vector>
 
 using namespace std;
 
 namespace K {
 
 class UnrecognizedTokenError : public std::runtime_error {
-public:
-    explicit UnrecognizedTokenError(const string& token)
+  public:
+    explicit UnrecognizedTokenError(const string &token)
         : std::runtime_error("Unrecognized token: \'" + token + '\'') {}
 };
 
 class ExpectedDifferentTokenError : public std::runtime_error {
-public:
-    explicit ExpectedDifferentTokenError(const string& token, const std::string& expected)
-        : std::runtime_error("Expected: \"" + expected + "\", found: \"" + token + '\"') {}
+  public:
+    explicit ExpectedDifferentTokenError(const string &token,
+                                         const std::string &expected)
+        : std::runtime_error("Expected: \"" + expected + "\", found: \"" +
+                             token + '\"') {}
 };
 
 class KJsonParser {
-public:
+  public:
     struct dict_type;
     struct array_type;
-    using value_type = variant<int, bool, double, string, dict_type, array_type>;
+    using value_type =
+        variant<int, bool, double, string, dict_type, array_type>;
     struct dict_type : unordered_map<string, shared_ptr<value_type>> {
-        bool operator==(const dict_type& rhs) const;
-        bool operator!=(const dict_type& rhs) const {return !((*this) == rhs); };
+        bool operator==(const dict_type &rhs) const;
+        bool operator!=(const dict_type &rhs) const {
+            return !((*this) == rhs);
+        };
     };
     struct array_type : vector<shared_ptr<value_type>> {
-        bool operator==(const array_type& rhs) const;
-        bool operator!=(const array_type& rhs) const {return !((*this) == rhs); };
+        bool operator==(const array_type &rhs) const;
+        bool operator!=(const array_type &rhs) const {
+            return !((*this) == rhs);
+        };
     };
     using token_type = variant<int, bool, double, string, char>;
 
@@ -48,16 +55,17 @@ public:
         STRING,
         DOUBLE,
         INT,
-        BOOL_FALSE, 
-        BOOL_TRUE, 
+        BOOL_FALSE,
+        BOOL_TRUE,
         COLON,
         COMMA
     };
 
-    static value_type parse(const string& s);
-    static tuple<K::KJsonParser::TokenType, K::KJsonParser::value_type, string> parse(stringstream& ss);
-    static value_type parse_dict(stringstream& ss);
-    static value_type parse_array(stringstream& ss);
-    static TokenType get_token(stringstream& ss, string& token);
+    static value_type parse(const string &s);
+    static tuple<K::KJsonParser::TokenType, K::KJsonParser::value_type, string>
+    parse(stringstream &ss);
+    static value_type parse_dict(stringstream &ss);
+    static value_type parse_array(stringstream &ss);
+    static TokenType get_token(stringstream &ss, string &token);
 };
-}
+} // namespace K
