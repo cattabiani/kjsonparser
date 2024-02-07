@@ -28,10 +28,7 @@ target_link_libraries(kjsonparser_test PRIVATE kjsonparser ${GTEST_BOTH_LIBRARIE
 # Register tests
 gtest_discover_tests(kjsonparser_test)
 
-install(TARGETS kjsonparser
-        ARCHIVE DESTINATION ./lib)
-
-# cmake -S . -B build -G Ninja && cmake --build build --target install
+# cmake -S . -B build -G Ninja
 
 
 
