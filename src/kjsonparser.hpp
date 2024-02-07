@@ -29,8 +29,14 @@ public:
     struct dict_type;
     struct array_type;
     using value_type = variant<int, bool, double, string, dict_type, array_type>;
-    struct dict_type : unordered_map<string, shared_ptr<value_type>> {};
-    struct array_type : vector<shared_ptr<value_type>> {};
+    struct dict_type : unordered_map<string, shared_ptr<value_type>> {
+        bool operator==(const dict_type& rhs) const;
+        bool operator!=(const dict_type& rhs) const {return !((*this) == rhs); };
+    };
+    struct array_type : vector<shared_ptr<value_type>> {
+        bool operator==(const array_type& rhs) const;
+        bool operator!=(const array_type& rhs) const {return !((*this) == rhs); };
+    };
     using token_type = variant<int, bool, double, string, char>;
 
     enum class TokenType {

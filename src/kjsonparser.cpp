@@ -1,4 +1,5 @@
 #include "kjsonparser.hpp"
+#include "utils.hpp"
 
 #include <sstream>
 #include <iostream>
@@ -151,123 +152,66 @@ K::KJsonParser::value_type K::KJsonParser::parse_array(stringstream& ss) {
     return ans;
 }
 
+// Custom comparison function for value_type
+bool K::KJsonParser::dict_type::operator==(const dict_type& rhs) const {
 
+    // Compare sizes first
+    if (size() != rhs.size()) {
+        return false;
+    }
 
+    // Iterate through each key-value pair in d1
+    for (const auto& [key, value0] : *this) {
+        // Check if the key exists in d2
+        const auto value1_ptr = rhs.find(key);
+        if (value1_ptr == rhs.end()) {
+            return false; // Key does not exist in d2
+        }
+        const auto value1 = value1_ptr->second;
 
+        if (!value0 && !value1) {
+            return true;
+        }
+        
+        // If only one pointer is null, they are not equal
+        if (!value0 || !value1) {
+            return false;
+        }
 
+        // Compare the values recursively
+        if (!((*value0) == (*value1))) {
+            return false; // Values are not equal
+        }
+    }
 
+    return true;
+}
 
+// Custom comparison function for array_type
+bool K::KJsonParser::array_type::operator==(const array_type& rhs) const {
+    // Compare sizes first
+    if (size() != rhs.size()) {
+        return false;
+    }
 
+    // Compare elements pairwise
+    for (size_t i = 0; i < size(); ++i) {
+        const auto value0 = (this->operator[](i));
+        const auto value1 = rhs[i];
 
+        if (!value0 && !value1) {
+            return true;
+        }
+        
+        // If only one pointer is null, they are not equal
+        if (!value0 || !value1) {
+            return false;
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-// KJsonParser::value_type KJsonParser::parse(stringstream& ss) {
-//     ss >> std::ws;
-//     char a = ss.peek();
-
-//     switch (a) {
-//         case '{': {
-//             return KJsonParser::parse_dict(ss);
-//         }
-//         case '[': {
-//             return KJsonParser::parse_array(ss);
-//         }
-//         default: {
-//             return KJsonParser::parse_base(ss);
-//         }
-//     }
-// }
-
-
-
-
-
-// KJsonParser::value_type KJsonParser::parse_dict(stringstream& ss) {
-//     // char c;
-//     // ss.get(c);
-//     // KJsonParser::array_type ans;
-//     // while (c != '}') {
-//     //     auto token = parse(ss);
-//     //     // auto p = make_shared<KJsonParser::value_type>(token);
-//     //     ans.emplace_back(move(make_shared<value_type>(token)));
-//     //     ss >> std::ws;
-//     //     ss.get(c);
-//     // }
-
-//     // return ans;
-//     return {};
-// }
-
-// KJsonParser::value_type KJsonParser::parse_array(stringstream& ss) {
-//     char c;
-//     ss.get(c);
-//     KJsonParser::array_type ans;
-//     while (c != ']') {
-//         auto token = parse(ss);
-//         // auto p = make_shared<KJsonParser::value_type>(token);
-//         ans.emplace_back(move(make_shared<value_type>(token)));
-//         ss >> std::ws;
-//         ss.get(c);
-//     }
-
-//     return ans;
-// }
-
-
-// KJsonParser::value_type KJsonParser::parse_base(stringstream& ss) {
-//     char v = ss.peek();
-//     string token;
-//     if (v == '"') {
-//         ss.ignore(1);
-//         getline(ss, token, '"');
-//         return token;
-//     }
-
-//     if (v == 'f') {
-//         ss >> token;
-//         if (token != "false") {
-//             throw UnrecognizedTokenError(token);
-//         }
-
-//         return false;
-//     }
-
-//     if (v == 't') {
-//         ss >> token;
-//         if (token != "true") {
-//             throw UnrecognizedTokenError(token);
-//         }
-
-//         return true;
-//     }
-
-//     return KJsonParser::parse_number(ss);
-// }
-
-// KJsonParser::value_type process(const string& ans, const int ndots) {
-//     if (ans.empty()) {
-//         throw UnrecognizedTokenError(ans);
-//     }
-
-//     if (ndots == 1) {
-//         return stod(ans);
-//     }
-
-//     if (ndots == 0) {
-//         return stoi(ans);
-//     }
-
-//     throw UnrecognizedTokenError(ans);
-// }
-
+        if (!((*value0) == (*value1))) {
+            return false; // Elements are not equal
+        }
+    }
+    return true;
+}
 

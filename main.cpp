@@ -35,12 +35,7 @@ int main() {
 
     string s1 = " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";
 
-
-
-
-    auto ans = K::KJsonParser::parse(s1);
-
-    cout << ans << endl;
+    auto ans = K::KJsonParser::parse(s);
     
     return 0;
 }
