@@ -1,9 +1,8 @@
+#include "../include/kjsonparser.hpp"
+#include "utils.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
-
-#include "../src/kjsonparser.hpp"
-#include "../src/utils.hpp"
 
 const string s0 =
     " {\"bb\" : 3 \"c\" : [\"a\" , {\"oo\" : 12.3, \"c\":[6, 7.1]} ] }";

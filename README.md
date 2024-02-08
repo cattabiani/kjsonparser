@@ -4,6 +4,7 @@ Parser of simple json files. Assumptions:
 
 - all keys are strings
 - base types: int, string, double, bool, umap, vector
+- nesting is possible
 
 Example:
 
@@ -29,16 +30,15 @@ Example:
 
 ## Project Structure
 
-- **src**: Place your C++ source and header files here.
+- **include**: Hpp files.
+- **src**: Cpp files.
+- **lib**: Compiled lib.
 - **build**: Output directory for build artifacts.
 
 ## Building the Project
 
-To build the project, you can use CMake and Ninja:
+To build the library and install in `lib`, you can use CMake and Ninja:
 
 ```bash
-mkdir build
-cd build
-cmake ..
-make
+cmake -S . -B build -G Ninja && cmake --build build && cmake --install build
 ```

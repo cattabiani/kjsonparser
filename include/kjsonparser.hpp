@@ -68,4 +68,5 @@ class KJsonParser {
     static value_type parse_array(stringstream &ss);
     static TokenType get_token(stringstream &ss, string &token);
 };
+
 } // namespace K

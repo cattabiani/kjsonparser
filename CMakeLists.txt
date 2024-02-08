@@ -5,9 +5,11 @@ project(kjsonparser)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include_directories(external/cpp_utils/include)
+
 # Globbing source files
 file(GLOB SOURCES src/*.cpp)
-file(GLOB TESTS src/*.cpp)
+file(GLOB TESTS test/*.cpp)
 
 # Create the library from the source files
 add_library(kjsonparser STATIC ${SOURCES})
@@ -31,5 +33,3 @@ gtest_discover_tests(kjsonparser_test)
 
 install(TARGETS kjsonparser
         ARCHIVE DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/../lib)
-
-# cmake -S . -B build -G Ninja && cmake --build build && cmake --install build
