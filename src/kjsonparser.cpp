@@ -125,8 +125,8 @@ K::KJsonParser::value_type K::KJsonParser::parse_dict(stringstream &ss) {
         tie(tt, value, token) = KJsonParser::parse(ss);
         if (tt != TokenType::COLON)
             throw ExpectedDifferentTokenError(token, ":");
-        ans.emplace(
-            key, move(make_shared<value_type>(get<1>(KJsonParser::parse(ss)))));
+        ans.emplace(key, std::move(make_shared<value_type>(
+                             get<1>(KJsonParser::parse(ss)))));
 
         tie(tt, value, token) = KJsonParser::parse(ss);
     }
@@ -143,7 +143,7 @@ K::KJsonParser::value_type K::KJsonParser::parse_array(stringstream &ss) {
             continue;
         }
 
-        ans.emplace_back(move(make_shared<value_type>(value)));
+        ans.emplace_back(std::move(make_shared<value_type>(value)));
         tie(tt, value, token) = KJsonParser::parse(ss);
     }
 
