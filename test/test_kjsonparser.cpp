@@ -73,6 +73,7 @@ TEST(JsonParserTest, BasicParsing) {
 }
 
 TEST(JsonParserTest, CompareParsings) {
+    using dict_type = K::KJsonParser::dict_type;
 
     auto ans0 = K::KJsonParser::parse("{}");
     auto ans1 = K::KJsonParser::parse("{}");
@@ -119,4 +120,7 @@ TEST(JsonParserTest, CompareParsings) {
     ans0 = K::KJsonParser::parse(s1);
     ans1 = K::KJsonParser::parse(s2);
     ASSERT_NE(ans0, ans1);
+    ans1 = K::KJsonParser::parse("{\"aa\":\"a\\nb\"}");
+    auto v = get<string>(*get<dict_type>(ans1).at("aa"));
+    ASSERT_EQ(v, "a\nb");
 }

@@ -42,3 +42,9 @@ To build the library and install in `lib`, you can use CMake and Ninja:
 ```bash
 cmake -S . -B build -G Ninja && cmake --build build && cmake --install build
 ```
+
+To build and run the tests:
+
+```bash
+cmake -S . -B build -G Ninja && cmake --build build && ./build/kjsonparser_test
+```

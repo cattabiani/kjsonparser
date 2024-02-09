@@ -82,6 +82,20 @@ K::KJsonParser::TokenType K::KJsonParser::get_token(stringstream &ss,
     return TokenType::INT;
 }
 
+string sanitize(const string &s) {
+
+    string ans;
+    for (size_t i = 0; i < s.size(); ++i) {
+        if (i != 0 && s[i] == 'n' && s[i - 1] == '\\') {
+            ans.pop_back();
+            ans += '\n';
+        } else {
+            ans += s[i];
+        }
+    }
+    return ans;
+}
+
 tuple<K::KJsonParser::TokenType, K::KJsonParser::value_type, string>
 K::KJsonParser::parse(stringstream &ss) {
     string token;
@@ -101,6 +115,10 @@ K::KJsonParser::parse(stringstream &ss) {
         return {tt, false, token};
     case TokenType::BOOL_TRUE:
         return {tt, true, token};
+    case TokenType::STRING: {
+        token = sanitize(token);
+        return {tt, token, token};
+    }
     default:
         return {tt, token, token};
     }
