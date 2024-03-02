@@ -98,21 +98,19 @@ K::KJsonParser::TokenType K::KJsonParser::get_token(stringstream &ss,
 
 string sanitize(const string &s) {
     string ans;
+    bool is_escaped = false;
     for (size_t i = 0; i < s.size(); ++i) {
-        if (i != 0 && s[i - 1] == '\\') {
+        if (is_escaped) {
             switch (s[i]) {
             case 'n': {
-                ans.pop_back();
                 ans += '\n';
                 break;
             }
             case '\"': {
-                ans.pop_back();
                 ans += '\"';
                 break;
             }
             case '\\': {
-                ans.pop_back();
                 ans += '\\';
                 break;
             }
@@ -120,6 +118,9 @@ string sanitize(const string &s) {
                 ans += s[i];
             }
             }
+            is_escaped = false;
+        } else if (s[i] == '\\') {
+            is_escaped = true;
         } else {
             ans += s[i];
         }
