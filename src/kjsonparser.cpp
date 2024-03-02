@@ -106,11 +106,6 @@ string sanitize(const string &s) {
                 ans += '\n';
                 break;
             }
-            case '"': {
-                ans.pop_back();
-                ans += '\"';
-                break;
-            }
             default: {
                 ans += s[i];
             }

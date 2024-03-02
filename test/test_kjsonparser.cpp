@@ -127,4 +127,5 @@ TEST(JsonParserTest, CompareParsings) {
     string s3 = "{\"example\": \"This is a string with \\\"double quotes\\\" "
                 "and a newline character.\\n\"}";
     ans1 = K::KJsonParser::parse(s3);
+    cout << ans1 << endl;
 }
