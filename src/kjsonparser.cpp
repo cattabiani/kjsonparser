@@ -40,7 +40,21 @@ K::KJsonParser::TokenType K::KJsonParser::get_token(stringstream &ss,
     case ',':
         return TokenType::COMMA;
     case '\"': {
-        getline(ss, token, '\"');
+        token.clear();
+        bool discard_next_char = false;
+        while (true) {
+            ss.get(c);
+            if (!discard_next_char) {
+                if (c == '\"') {
+                    break;
+                }
+                discard_next_char = (c == '\\');
+            } else {
+                discard_next_char = false;
+            }
+
+            token += c;
+        }
         return TokenType::STRING;
     }
     case 'f': {
@@ -83,16 +97,29 @@ K::KJsonParser::TokenType K::KJsonParser::get_token(stringstream &ss,
 }
 
 string sanitize(const string &s) {
-
     string ans;
     for (size_t i = 0; i < s.size(); ++i) {
-        if (i != 0 && s[i] == 'n' && s[i - 1] == '\\') {
-            ans.pop_back();
-            ans += '\n';
+        if (i != 0 && s[i - 1] == '\\') {
+            switch (s[i]) {
+            case 'n': {
+                ans.pop_back();
+                ans += '\n';
+                break;
+            }
+            case '"': {
+                ans.pop_back();
+                ans += '\"';
+                break;
+            }
+            default: {
+                ans += s[i];
+            }
+            }
         } else {
             ans += s[i];
         }
     }
+
     return ans;
 }
 
@@ -100,6 +127,7 @@ tuple<K::KJsonParser::TokenType, K::KJsonParser::value_type, string>
 K::KJsonParser::parse(stringstream &ss) {
     string token;
     auto tt = KJsonParser::get_token(ss, token);
+
     switch (tt) {
     case TokenType::END:
         return {tt, false, token};

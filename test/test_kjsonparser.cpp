@@ -123,4 +123,8 @@ TEST(JsonParserTest, CompareParsings) {
     ans1 = K::KJsonParser::parse("{\"aa\":\"a\\nb\"}");
     auto v = get<string>(*get<dict_type>(ans1).at("aa"));
     ASSERT_EQ(v, "a\nb");
+
+    string s3 = "{\"example\": \"This is a string with \\\"double quotes\\\" "
+                "and a newline character.\\n\"}";
+    ans1 = K::KJsonParser::parse(s3);
 }
